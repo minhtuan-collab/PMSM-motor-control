@@ -180,38 +180,45 @@ extern "C"
 // Fence member
 #define AS5600_BURN_MODE_COUNT 0
 
+typedef struct {
+    uint16_t angle12;  // 12-bit Angle  (0-4095)
+    uint16_t offset_pos;
+    uint16_t correct_angle;
+    uint16_t zpos12;
+    uint16_t mpos12;
+    uint8_t cmd;
+    uint8_t filter_mode;
+    uint16_t No_of_turns;
+	uint16_t total_angle;
+	uint16_t quadrant_Number;
+	uint16_t previous_quadrant_Number;
+} EncoderStruct;
+
+extern EncoderStruct *encoder;
+
 /* --------------------------- Programming Function --------------------------- */
 
 /* Check i2c Connection */
-uint8_t AS5600_CheckConnection(I2C_HandleTypeDef *hi2c1);
+uint8_t AS5600_CheckConnection();
 
 /* Angle programming through I2C interface */
-void AS5600_ReadRawAngle(I2C_HandleTypeDef *hi2c1, uint16_t *angle12);
-void AS5600_WriteZPOS(I2C_HandleTypeDef *hi2c1, uint16_t zpos12);
-void AS5600_ReadZPOS(I2C_HandleTypeDef *hi2c1, uint16_t *zpos12);
-void AS5600_WriteMPOS(I2C_HandleTypeDef *hi2c1, uint16_t mpos12);
-void AS5600_ReadMPOS(I2C_HandleTypeDef *hi2c1, uint16_t *mpos12);
-void AS5600_BurnAngle(I2C_HandleTypeDef *hi2c1);
-void AS5600_VerifyBurnAngle(I2C_HandleTypeDef *hi2c1);
+void AS5600_ReadRawAngle(EncoderStruct *encoder);
+void AS5600_WriteZPOS(EncoderStruct *encoder);
+void AS5600_ReadZPOS(EncoderStruct *encoder);
+void AS5600_WriteMPOS(EncoderStruct *encoder);
+void AS5600_ReadMPOS(EncoderStruct *encoder);
+void AS5600_BurnAngle(EncoderStruct *encoder);
+void AS5600_VerifyBurnAngle();
 
 /* Smooth motion (Set Slow Filter) */
-void AS5600_MakeSmooth(I2C_HandleTypeDef *hi2c1);
+void AS5600_MakeSmooth(EncoderStruct *encoder);
 
 /* Calibration */
-void AS5600_CalibrateOffsetAngle(I2C_HandleTypeDef *hi2c1, uint16_t *offset_pos);
-void AS5600_CorrectedAngleRaw(I2C_HandleTypeDef *hi2c,
-                                            uint16_t offset_pos,
-                                            uint16_t *correct_angle);
+void AS5600_CalibrateOffsetAngle(EncoderStruct *encoder);
+void AS5600_CorrectedAngleRaw(EncoderStruct *encoder);
 
-/* Debug functions */
-uint8_t AS5600_TestConnection(I2C_HandleTypeDef *hi2c);
-uint8_t AS5600_DebugI2C(I2C_HandleTypeDef *hi2c);
-
-/* Debug variables - accessible for debugging */
-extern uint8_t debug_status_reg;
-extern HAL_StatusTypeDef debug_i2c_status;
-extern uint16_t debug_raw_angle;
-extern HAL_StatusTypeDef debug_angle_status;
+/* Check Quadrant and Calculate Revolution */
+void AS5600_CheckQuadrant(EncoderStruct *encoder);
 
 #ifdef __cplusplus
 }

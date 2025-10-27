@@ -47,11 +47,7 @@
 
 /* USER CODE BEGIN PV */
 uint8_t testing ;
-uint16_t zp_test_angle;
-uint16_t mp_test_angle;
-int zp_input = 1000;
-int mp_input = 900;
-uint16_t RawTestAngle;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -100,8 +96,8 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
   MX_USART2_UART_Init();
+  *encoder = (EncoderStruct){0};
   /* USER CODE BEGIN 2 */
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -110,16 +106,16 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  testing = AS5600_CheckConnection(&hi2c1);
-	  AS5600_MakeSmooth(&hi2c1);
-	  AS5600_ReadRawAngle(&hi2c1, &RawTestAngle);
-	  AS5600_WriteZPOS(&hi2c1, RawTestAngle);
-	  AS5600_ReadZPOS(&hi2c1, &zp_test_angle);
+	  testing = AS5600_CheckConnection();
+	  AS5600_MakeSmooth(encoder);
+	  AS5600_ReadRawAngle(encoder);
+	  AS5600_WriteZPOS(encoder);
+	  AS5600_ReadZPOS(encoder);
 	  HAL_Delay(100);
 
-	  AS5600_ReadRawAngle(&hi2c1, &RawTestAngle);
-	  AS5600_WriteMPOS(&hi2c1, RawTestAngle);
-	  AS5600_ReadMPOS(&hi2c1, &mp_test_angle);
+	  AS5600_ReadRawAngle(encoder);
+	  AS5600_WriteMPOS(encoder);
+	  AS5600_ReadMPOS(encoder);
 
 	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
 	  HAL_Delay(1000); /* 1000 ms on/off -> 2 Hz blink */
