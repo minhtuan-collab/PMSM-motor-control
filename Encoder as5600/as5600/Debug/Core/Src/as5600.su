@@ -1,9 +1,0 @@
-../Core/Src/as5600.c:17:13:AS5600_ReadRawAngle	40	static
-../Core/Src/as5600.c:39:13:AS5600_WriteZPOS	40	static
-../Core/Src/as5600.c:73:13:AS5600_ReadZPOS	40	static
-../Core/Src/as5600.c:93:13:AS5600_WriteMPOS	40	static
-../Core/Src/as5600.c:127:13:AS5600_ReadMPOS	40	static
-../Core/Src/as5600.c:147:13:AS5600_BurnAngle	40	static
-../Core/Src/as5600.c:163:13:AS5600_VerifyBurnAngle	40	static
-../Core/Src/as5600.c:181:13:AS5600_MakeSmooth	40	static
-../Core/Src/as5600.c:196:13:AS5600_CorrectAngle	24	static
